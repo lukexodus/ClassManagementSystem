@@ -13,9 +13,13 @@ Class Management System (CMS)
   - Displays the student record.
 - Data stored to a text file (CSV)
 
+***
+
 ### What is a CSV File?
 
 A CSV (Comma-Separated Values) file is a simple text-based file format used to store tabular data. In a CSV file, each line represents a row of data, with fields separated by commas (or other delimiters like semicolons or tabs). - ChatGPT
+
+***
 
 ### Parts
 
