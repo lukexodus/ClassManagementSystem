@@ -34,7 +34,7 @@ So, all in all, there are **6 parts**.
 - Stores the data to an array.
 - Tutorial: https://www.youtube.com/watch?v=rbVt5v8NNe8
 
-### [3] Displays student records and options
+### Phase 3: Displays student records and options
 
 - Use a loop for this part so that the program
   continues until exited by the user.
