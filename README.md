@@ -24,8 +24,8 @@ A CSV (Comma-Separated Values) file is a simple text-based file format used to s
 ### Parts
 
 The program has **4 phases**.
-Phase 3 has 3 parts.
-So, all in all, there are **6 parts**.
+Phase 3 has 4 parts.
+So, all in all, there are **7 parts**.
 
 ### Phase 1: Creates the data file if it does not exist
 
