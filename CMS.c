@@ -76,7 +76,7 @@ int main(void)
         printf("Select Option:\n");
         printf("[1] Add Student\n[2] Display student record\n[3] Search\n[4] Exit\n\n> ");
         scanf("%d", &option);
-
+        int index = -1;
         if (option == 1)
         {
             // [3.A] Add Student Option
@@ -85,7 +85,38 @@ int main(void)
             //    - MATH101, CMPSC113, COMM01, MATH01, NSTP02, MATH16, PATHFIT2 grades
             //  - Computes the GWA
             //  - Stores all of these to the student struct in the array
+            while(getchar() != '\n');
 
+            double sum = 0;
+            index++;
+            printf("Last name of student: ");
+            fgets(student[index].lastName, TEXT_MAX_NUM, stdin);
+            printf("First name of student: ");
+            fgets(student[index].firstName, TEXT_MAX_NUM, stdin);
+            printf("ID of student: ");
+            fgets(student[index].studentID, ID_NUM, stdin);
+            
+            printf("Grade for MATH101: ");
+            scanf("%lf", &student[index].math101);
+            printf("Grade for MATH01: ");
+            scanf("%lf", &student[index].math01);
+            printf("Grade for MATH16: ");
+            scanf("%lf", &student[index].math16);
+            printf("Grade for COMM01: ");
+            scanf("%lf", &student[index].comm01);
+            printf("Grade for PATHFIT2: ");
+            scanf("%lf", &student[index].pathfit2);
+            printf("Grade for NSTP02: ");
+            scanf("%lf", &student[index].nstp02);
+            printf("Grade for CMPSC113: ");
+            scanf("%lf", &student[index].cmpsc113);
+            printf("Grade for CMPSC112: ");
+            scanf("%lf", &student[index].cmpsc112);
+
+            sum = student[index].math101 + student[index].math01 + student[index].math16 + student[index].comm01 
+            + student[index].pathfit2 + student[index].nstp02 + student[index].cmpsc113 + student[index].cmpsc112;
+
+            student[index].GWA = sum / 8;
             
         }
         else if (option == 2)
