@@ -17,12 +17,39 @@
 // line represents a row of data, with fields separated by
 // commas (or other delimiters like semicolons or tabs). - ChatGPT
 
-int main()
+#include <stdio.h>
+
+// To be able to use `bool` type
+#include <stdbool.h>
+
+#define TEXT_MAX_NUM 50
+#define ID_NUM 15
+
+typedef struct
+{
+    char lastName[TEXT_MAX_NUM];
+    char firstName[TEXT_MAX_NUM];
+    char studentID[ID_NUM];
+    double math101;
+    double cmpsc113;
+    double comm01;
+    double math01;
+    double nstp02;
+    double math16;
+    double cmpsc112;
+    double pathfit2;
+    double GWA;
+} Student;
+
+int main(void)
 {
     // The program has 4 phases.
     // Phase 3 has 3 parts.
     // So, all in all, there are 6 parts.
-    //
+
+    // Global Variables
+    const char *dataFilePath = "CMS_Data.csv";
+    
     // [1] Creates the data file if it does not exist
     //
     //
@@ -39,28 +66,50 @@ int main()
     //    [2] Display student record
     //    [3] Search
     //    [4] Exit
-    //
-    //
-    // [3.A] Add Student Option
-    //  - Input student data and grades
-    //    - Last name, first name, ID
-    //    - MATH101, CMPSC113, COMM01, MATH01, NSTP02, MATH16, PATHFIT2 grades
-    //  - Computes the GWA
-    //  - Stores all of these to the student struct in the array
-    //
-    // [3.B] Display student record
-    //  - Make the user select one student
-    //  - and then displays the data and grades of the student
-    //
-    // [3.C] Search
-    //  - Let the user search for students
-    //    based on the keyword/s inputted
-    //  - If the search matches multiple students,
-    //    ask again which specific student whose
-    //    data and grades will be shown
-    //  - Displays the data and grades of the selected student
-    //
-    //
+
+    // Phase 3
+    // Initialize option value
+    int option = 1;
+    while (option >= 1 && option <= 3)
+    {
+        // Print options
+        printf("Select Option:\n");
+        printf("[1] Add Student\n[2] Display student record\n[3] Search\n[4] Exit\n\n> ");
+        scanf("%d", &option);
+
+        if (option == 1)
+        {
+            // [3.A] Add Student Option
+            //  - Input student data and grades
+            //    - Last name, first name, ID
+            //    - MATH101, CMPSC113, COMM01, MATH01, NSTP02, MATH16, PATHFIT2 grades
+            //  - Computes the GWA
+            //  - Stores all of these to the student struct in the array
+
+            
+        }
+        else if (option == 2)
+        {
+            // [3.B] Display student record
+            //  - Make the user select one student
+            //  - and then displays the data and grades of the student
+
+            
+        }
+        else if (option == 3)
+        {
+            // [3.C] Search
+            //  - Let the user search for students
+            //    based on the keyword/s inputted
+            //  - If the search matches multiple students,
+            //    ask again which specific student whose
+            //    data and grades will be shown
+            //  - Displays the data and grades of the selected student
+
+            
+        }
+    }
+    
     // [4] Stores data to the data back to the data file
     //  - Tutorial: https://www.youtube.com/watch?v=7ZFgphYJvUA
 }
