@@ -49,7 +49,7 @@ int main(void)
 
     // Global Variables
     const char *dataFilePath = "CMS_Data.csv";
-    
+
     // [1] Creates the data file if it does not exist
     //
     //
@@ -57,6 +57,7 @@ int main(void)
     //  - Stores the data to an array.
     //  - Tutorial: https://www.youtube.com/watch?v=rbVt5v8NNe8
     //
+    Student students[100];
     //
     // [3] Displays student records and options
     //  - Use a loop for this part so that the program
@@ -85,47 +86,42 @@ int main(void)
             //    - MATH101, CMPSC113, COMM01, MATH01, NSTP02, MATH16, PATHFIT2 grades
             //  - Computes the GWA
             //  - Stores all of these to the student struct in the array
-            while(getchar() != '\n');
 
             double sum = 0;
             index++;
             printf("Last name of student: ");
-            fgets(student[index].lastName, TEXT_MAX_NUM, stdin);
+            scanf(" %[^\n]s", students[index].lastName);
             printf("First name of student: ");
-            fgets(student[index].firstName, TEXT_MAX_NUM, stdin);
+            scanf(" %[^\n]s", students[index].firstName);
             printf("ID of student: ");
-            fgets(student[index].studentID, ID_NUM, stdin);
-            
+            scanf(" %[^\n]s", students[index].studentID);
+
             printf("Grade for MATH101: ");
-            scanf("%lf", &student[index].math101);
+            scanf("%lf", &students[index].math101);
             printf("Grade for MATH01: ");
-            scanf("%lf", &student[index].math01);
+            scanf("%lf", &students[index].math01);
             printf("Grade for MATH16: ");
-            scanf("%lf", &student[index].math16);
+            scanf("%lf", &students[index].math16);
             printf("Grade for COMM01: ");
-            scanf("%lf", &student[index].comm01);
+            scanf("%lf", &students[index].comm01);
             printf("Grade for PATHFIT2: ");
-            scanf("%lf", &student[index].pathfit2);
+            scanf("%lf", &students[index].pathfit2);
             printf("Grade for NSTP02: ");
-            scanf("%lf", &student[index].nstp02);
+            scanf("%lf", &students[index].nstp02);
             printf("Grade for CMPSC113: ");
-            scanf("%lf", &student[index].cmpsc113);
+            scanf("%lf", &students[index].cmpsc113);
             printf("Grade for CMPSC112: ");
-            scanf("%lf", &student[index].cmpsc112);
+            scanf("%lf", &students[index].cmpsc112);
 
-            sum = student[index].math101 + student[index].math01 + student[index].math16 + student[index].comm01 
-            + student[index].pathfit2 + student[index].nstp02 + student[index].cmpsc113 + student[index].cmpsc112;
+            sum = students[index].math101 + students[index].math01 + students[index].math16 + students[index].comm01 + students[index].pathfit2 + students[index].nstp02 + students[index].cmpsc113 + students[index].cmpsc112;
 
-            student[index].GWA = sum / 8;
-            
+            students[index].GWA = sum / 8;
         }
         else if (option == 2)
         {
             // [3.B] Display student record
             //  - Make the user select one student
             //  - and then displays the data and grades of the student
-
-            
         }
         else if (option == 3)
         {
@@ -136,11 +132,9 @@ int main(void)
             //    ask again which specific student whose
             //    data and grades will be shown
             //  - Displays the data and grades of the selected student
-
-            
         }
     }
-    
+
     // [4] Stores data to the data back to the data file
     //  - Tutorial: https://www.youtube.com/watch?v=7ZFgphYJvUA
 }
