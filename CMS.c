@@ -25,6 +25,8 @@
 #define TEXT_MAX_NUM 50
 #define ID_NUM 15
 
+void printStudentRecords(int recordsNum, Student students[100]);
+
 typedef struct
 {
     char lastName[TEXT_MAX_NUM];
@@ -49,6 +51,7 @@ int main(void)
 
     // Global Variables
     const char *dataFilePath = "CMS_Data.csv";
+    int recordsNum = 0;  
 
     // [1] Creates the data file if it does not exist
     //
@@ -56,10 +59,11 @@ int main(void)
     // [2] Reads all students data from the data file
     //  - Stores the data to an array.
     //  - Tutorial: https://www.youtube.com/watch?v=rbVt5v8NNe8
+    //  - Should increment `recordsNum` by one for every record read
     //
     Student students[100];
-    //
-    // [3] Displays student records and options
+
+    // [Phase 3] Displays student records and options
     //  - Use a loop for this part so that the program
     //    continues until exited by the user.
     //  - 4 options:
@@ -67,8 +71,8 @@ int main(void)
     //    [2] Display student record
     //    [3] Search
     //    [4] Exit
-
-    // Phase 3
+    printStudentRecords(recordsNum, students);
+    
     // Initialize option value
     int option = 1;
     while (option >= 1 && option <= 3)
@@ -137,4 +141,28 @@ int main(void)
 
     // [4] Stores data to the data back to the data file
     //  - Tutorial: https://www.youtube.com/watch?v=7ZFgphYJvUA
+}
+
+void printStudentRecords(int recordsNum, Student students[100])
+{
+    // Debug
+    printf("%d record/s.\n", recordsNum);
+
+    // Headers for the grades
+    printf("MATH101 | MATH01 | MATH16 | COMM01 | PATHFIT2 | NSTP02 | CMPSC113 | CMPSC112 | GWA\n\n");
+
+    for (int i = 0; i < recordsNum; i++)
+    {
+        printf("[%d] %s, %s (%s)\n", i + 1, students[i].lastName, students[i].firstName, students[i].studentID);
+        printf("%7.2lf | %6.2lf | %6.2lf | %6.2lf | %8.2lf | %6.2lf | %8.2lf | %8.2lf | %3.2lf\n\n",
+               students[i].math101,
+               students[i].math01,
+               students[i].math16,
+               students[i].comm01,
+               students[i].pathfit2,
+               students[i].nstp02,
+               students[i].cmpsc113,
+               students[i].cmpsc112,
+               students[i].GWA);
+    }
 }
