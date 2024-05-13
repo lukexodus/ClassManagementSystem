@@ -25,8 +25,6 @@
 #define TEXT_MAX_NUM 50
 #define ID_NUM 15
 
-void printStudentRecords(int recordsNum, Student students[100]);
-
 typedef struct
 {
     char lastName[TEXT_MAX_NUM];
@@ -42,6 +40,8 @@ typedef struct
     double pathfit2;
     double GWA;
 } Student;
+
+void printStudentRecords(int recordsNum, Student students[100]);
 
 int main(void)
 {
