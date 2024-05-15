@@ -55,12 +55,74 @@ int main(void)
 
     // [1] Creates the data file if it does not exist
     //
-    //
+
+
+    //-----------------------------------------------------------------------------------------
     // [2] Reads all students data from the data file
     //  - Stores the data to an array.
     //  - Tutorial: https://www.youtube.com/watch?v=rbVt5v8NNe8
     //  - Should increment `recordsNum` by one for every record read
     //
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+
+    // maximum number of records to store
+    #define MAX_RECORDS 100 
+    // maximum length of each field in the CSV file
+    #define MAX_FIELD_LENGTH 50 // Maximum length of each field in the CSV file
+
+    typedef struct {
+    char name[MAX_FIELD_LENGTH];
+    int age;
+    } Student;
+
+    int main() {
+    FILE *file;
+    char filename[] = "students.csv"; // name of the CSV file
+    Student students[MAX_RECORDS]; // array to store student data
+    int recordsNum = 0; // counter for the number of records read
+    char line[MAX_FIELD_LENGTH * 2]; // buffer to read each line from the file
+
+    // open the file for reading
+    file = fopen(filename, "r");
+    if (file == NULL) {
+    fprintf(stderr, "Error opening file %s\n", filename);
+    return 1;
+    }
+
+    // read data from the file line by line
+    while (fgets(line, sizeof(line), file) != NULL) {
+    // tokenize the line based on comma separator
+    char *token = strtok(line, ",");
+    if (token != NULL) {
+    // copy the name field to the student structure
+    strncpy(students[recordsNum].name, token, sizeof(students[recordsNum].name) - 1);
+    students[recordsNum].name[sizeof(students[recordsNum].name) - 1] = '\0'; // ensure null-termination
+    }
+
+    // read age field and increment recordsNum
+    token = strtok(NULL, ",");
+    if (token != NULL) {
+    students[recordsNum].age = atoi(token);
+    recordsNum++;
+    }
+
+    }
+        
+    // close file
+    fclose(file);
+
+    // print number of records read
+    printf("Number of records read: %d\n", recordsNum);
+
+    // process stored student data as needed
+
+    return 0;
+}
+// ---------------------------------------------------------------
+    
     Student students[100];
 
     // [Phase 3] Displays student records and options
