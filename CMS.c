@@ -16,29 +16,8 @@
 // file format used to store tabular data. In a CSV file, each
 // line represents a row of data, with fields separated by
 // commas (or other delimiters like semicolons or tabs). - ChatGPT
+
 #include <stdio.h>
-#include <stdlib.h>
-
-// Define the name of the data file
-#define dataFilePath"students.csv"
-
-// Function to create the data file if it does not exist
-void createdataFilePath() {
-    // Open the file in append mode. If it does not exist, it will be created.
-    FILE *file = fopen(dataFilePath, "a");
-    if (!file) { // Check if the file was opened successfully
-        printf("Error creating the data file.\n");
-        exit(EXIT_FAILURE); // Exit the program if the file could not be opened
-    }
-    fclose(file); // Close the file
-    printf("data file checked/created successfully.\n");
-}
-
-int main() {
-    // Create the data file if it does not exist
-    createdataFilePath();
-    return 0;
-}
     
 #include <stdio.h>
 
@@ -46,6 +25,7 @@ int main() {
 #include <stdbool.h>
 
 #include <stdlib.h>
+
 #include <string.h>
 
 #define TEXT_MAX_NUM 50
@@ -91,7 +71,14 @@ int main(void)
     int index = -1; 
 
     // [1] Creates the data file if it does not exist
-    //
+
+    // Open the file in append mode. If it does not exist, it will be created.
+    FILE *file = fopen(dataFilePath, "a");
+    if (!file) { // Check if the file was opened successfully
+        printf("Error creating the data file.\n");
+        exit(EXIT_FAILURE); // Exit the program if the file could not be opened
+    }
+    fclose(file); // Close the file
 
     // [2] Reads all students data from the data file
     //  - Stores the data to an array.
