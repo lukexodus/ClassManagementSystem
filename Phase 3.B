@@ -28,25 +28,25 @@ It is used to size arrays that hold grades.*/
 It is used to size the array that holds Student structures.*/
 
 
-	/*void displayStudents(Student students[], int count):Declares a function named 
-	displayStudents that takes an array of Student structures 
-	and an integer count (the number of students) as parameters.*/
+/*void displayStudents(Student students[], int count):Declares a function named 
+displayStudents that takes an array of Student structures 
+and an integer count (the number of students) as parameters.*/
 	
 	
 	
-	
-	
+
 //displayStudents Function
 void displayStudents(Student students[], int count) {
 	
-	 // Prints the header for the list of students
-    printf("List of students:\n");
+// Prints the header for the list of students
+printf("List of students:\n");
     
     // Loops through the array of students
     //A loop that iterates over the students array from 0 to count - 1.
     for (int i = 0; i < count; i++) {
-    	 // Prints each student's number, first name, and last name
-    	 // i + 1 is used to start the numbering from 1 instead of 0
+
+    // Prints each student's number, first name, and last name
+    // i + 1 is used to start the numbering from 1 instead of 0
         printf("%d. %s %s\n", i + 1, students[i].firstName, students[i].lastName);
     }
 }
