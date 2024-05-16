@@ -237,6 +237,72 @@ int main(void)
             //    ask again which specific student whose
             //    data and grades will be shown
             //  - Displays the data and grades of the selected student
+
+            char keyword[TEXT_MAX_NUM];
+            printf("Enter keyword: ");
+            scanf(" %[^\n]s", keyword);
+
+            int matches[MAX_RECORDS]; // array to store indices of matching students
+            int numMatches = 0; // counter for number of matches
+
+            // search for students matching the keyword
+            for (int i = 0; i < recordsNum; i++) {
+                // check if keyword is present in either the first name or last name
+                if (strstr(students[i].firstName, keyword) != NULL || strstr(students[i].lastName, keyword) != NULL) {
+                    matches[numMatches] = i; // store the index of the matching student
+                    numMatches++; // increment the counter
+                }
+            }
+
+            if (numMatches == 0) {
+                printf("No matching students found.\n");
+            } else if (numMatches == 1) {
+                // only one match found, display the student record
+                int matchIndex = matches[0];
+                printf("Matching student found:\n");
+                printf("Last Name: %s\n", students[matchIndex].lastName);
+                printf("First Name: %s\n", students[matchIndex].firstName);
+                printf("Student ID: %s\n", students[matchIndex].studentID);
+                printf("Grades:\n");
+                printf("MATH101: %.2lf\n", students[matchIndex].math101);
+                printf("MATH01: %.2lf\n", students[matchIndex].math01);
+                printf("MATH16: %.2lf\n", students[matchIndex].math16);
+                printf("COMM01: %.2lf\n", students[matchIndex].comm01);
+                printf("PATHFIT2: %.2lf\n", students[matchIndex].pathfit2);
+                printf("NSTP02: %.2lf\n", students[matchIndex].nstp02);
+                printf("CMPSC113: %.2lf\n", students[matchIndex].cmpsc113);
+                printf("CMPSC112: %.2lf\n", students[matchIndex].cmpsc112);
+                printf("GWA: %.2lf\n", students[matchIndex].GWA);
+            } else {
+                // multiple matches found, ask user to select a specific student
+                printf("Multiple matching students found. Select a student:\n");
+                for (int i = 0; i < numMatches; i++) {
+                    int matchIndex = matches[i];
+                    printf("[%d] %s, %s (%s)\n", i + 1, students[matchIndex].lastName, students[matchIndex].firstName, students[matchIndex].studentID);
+                }
+                int selection;
+                printf("Enter selection: ");
+                scanf("%d", &selection);
+                if (selection >= 1 && selection <= numMatches) {
+                    int matchIndex = matches[selection - 1];
+                    printf("Selected student:\n");
+                    printf("Last Name: %s\n", students[matchIndex].lastName);
+                    printf("First Name: %s\n", students[matchIndex].firstName);
+                    printf("Student ID: %s\n", students[matchIndex].studentID);
+                    printf("Grades:\n");
+                    printf("MATH101: %.2lf\n", students[matchIndex].math101);
+                    printf("MATH01: %.2lf\n", students[matchIndex].math01);
+                    printf("MATH16: %.2lf\n", students[matchIndex].math16);
+                    printf("COMM01: %.2lf\n", students[matchIndex].comm01);
+                    printf("PATHFIT2: %.2lf\n", students[matchIndex].pathfit2);
+                    printf("NSTP02: %.2lf\n", students[matchIndex].nstp02);
+                    printf("CMPSC113: %.2lf\n", students[matchIndex].cmpsc113);
+                    printf("CMPSC112: %.2lf\n", students[matchIndex].cmpsc112);
+                    printf("GWA: %.2lf\n", students[matchIndex].GWA);
+                } else {
+                    printf("Invalid selection.\n");
+                }
+            }
         }
     }
 
