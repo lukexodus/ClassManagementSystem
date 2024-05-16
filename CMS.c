@@ -255,10 +255,27 @@ int main(void)
             int matches[MAX_RECORDS]; // array to store indices of matching students
             int numMatches = 0; // counter for number of matches
 
-            // search for students matching the keyword
+            // convert keyword to lowercase
+            for (int i = 0; keyword[i]; i++) {
+                keyword[i] = tolower(keyword[i]);
+            }
+
+            // search for students matching the keyword (case-insensitive)
             for (int i = 0; i < recordsNum; i++) {
+                // convert first name and last name to lowercase
+                char firstNameLower[TEXT_MAX_NUM];
+                char lastNameLower[TEXT_MAX_NUM];
+                strcpy(firstNameLower, students[i].firstName);
+                strcpy(lastNameLower, students[i].lastName);
+                for (int j = 0; firstNameLower[j]; j++) {
+                    firstNameLower[j] = tolower(firstNameLower[j]);
+                }
+                for (int j = 0; lastNameLower[j]; j++) {
+                    lastNameLower[j] = tolower(lastNameLower[j]);
+                }
+
                 // check if keyword is present in either the first name or last name
-                if (strstr(students[i].firstName, keyword) != NULL || strstr(students[i].lastName, keyword) != NULL) {
+                if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL) {
                     matches[numMatches] = i; // store the index of the matching student
                     numMatches++; // increment the counter
                 }
