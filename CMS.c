@@ -18,7 +18,7 @@
 // commas (or other delimiters like semicolons or tabs). - ChatGPT
 
 #include <stdio.h>
-    
+
 #include <stdio.h>
 
 // To be able to use `bool` type
@@ -30,7 +30,7 @@
 
 #define TEXT_MAX_NUM 50
 #define ID_NUM 15
-#define MAX_RECORDS 100  // maximum number of records to store
+#define MAX_RECORDS 100     // maximum number of records to store
 #define MAX_FIELD_LENGTH 50 // Maximum length of each field in the CSV file
 
 typedef struct
@@ -53,39 +53,38 @@ void printStudentRecords(int recordsNum, Student students[100]);
 
 int main(void)
 {
-    // The program has 4 phases.
-    // Phase 3 has 3 parts.
-    // So, all in all, there are 6 parts.
-
     // Global Variables
     const char *dataFilePath = "CMS_Data.csv";
-    int recordsNum = 0;  // counter for the number of records read
+    int recordsNum = 0; // counter for the number of records read
 
     // Tracks if there are students added during the execution of the program
     // To be used in part 4:
     // Part 4 should only run (stores the data back to the .csv) file
     // if there are changes (students added)
-    bool isThereAdded = false;   
+    bool isThereAdded = false;
 
     // Variable of the index of the student to be added; to be incremented
-    int index = -1; 
+    int index = -1;
 
-    // [1] Creates the data file if it does not exist
+    // ----------------------------------------------------------------
+    // --    [Phase 1] Creates the data file if it does not exist    --
+    // ----------------------------------------------------------------
 
     // Open the file in append mode. If it does not exist, it will be created.
-    FILE *file = fopen(dataFilePath, "a");
-    if (!file) { // Check if the file was opened successfully
+    FILE *dataFile = fopen(dataFilePath, "a");
+    if (!dataFile)
+    { // Check if the file was opened successfully
         printf("Error creating the data file.\n");
         exit(EXIT_FAILURE); // Exit the program if the file could not be opened
     }
-    fclose(file); // Close the file
+    fclose(dataFile); // Close the file
 
-    // [2] Reads all students data from the data file
+    // ----------------------------------------------------------------
+    // --    [Phase 2] Reads all students data from the data file    --
+    // ----------------------------------------------------------------
     //  - Stores the data to an array.
-    //  - Tutorial: https://www.youtube.com/watch?v=rbVt5v8NNe8
-    //  - Should increment `recordsNum` by one for every record read
-    //
-    
+    //  - Increments `recordsNum` by one for every record read
+
     Student students[MAX_RECORDS];
 
     FILE *file;
@@ -93,16 +92,19 @@ int main(void)
 
     // open the file for reading
     file = fopen(dataFilePath, "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         fprintf(stderr, "Error opening file %s\n", dataFilePath);
         return 1;
     }
 
     // read data from the file line by line
-    while (fgets(line, sizeof(line), file) != NULL && recordsNum < MAX_RECORDS) {
+    while (fgets(line, sizeof(line), file) != NULL && recordsNum < MAX_RECORDS)
+    {
         // tokenize the line based on comma separator
         char *token = strtok(line, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
 
         // copy the last name field to the student structure
         strncpy(students[recordsNum].lastName, token, sizeof(students[recordsNum].lastName) - 1);
@@ -110,74 +112,82 @@ int main(void)
 
         // copy the first name field
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         strncpy(students[recordsNum].firstName, token, sizeof(students[recordsNum].firstName) - 1);
         students[recordsNum].firstName[sizeof(students[recordsNum].firstName) - 1] = '\0'; // ensure null-termination
 
         // copy the student ID field
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         strncpy(students[recordsNum].studentID, token, sizeof(students[recordsNum].studentID) - 1);
         students[recordsNum].studentID[sizeof(students[recordsNum].studentID) - 1] = '\0'; // ensure null-termination
 
         // parse the remaining double fields
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].math101 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].math01 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].math16 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].comm01 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].pathfit2 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].nstp02 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].cmpsc113 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].cmpsc112 = atof(token);
-        
+
         token = strtok(NULL, ",");
-        if (token == NULL) continue;
+        if (token == NULL)
+            continue;
         students[recordsNum].GWA = atof(token);
 
         // increment the record number if all fields are successfully parsed
         recordsNum++;
         index++;
     }
- 
+
     // close file
     fclose(file);
 
     // print number of records read
     printf("Number of records read: %d\n", recordsNum);
 
-    // [Phase 3] Displays student records and options
-    //  - Use a loop for this part so that the program
+    // ----------------------------------------------------------------
+    // --       [Phase 3] Displays student records and options       --
+    // ----------------------------------------------------------------
+    //  - Use a loop so that the program
     //    continues until exited by the user.
-    //  - 4 options:
-    //    [1] Add Student
-    //    [2] Display student record
-    //    [3] Search
-    //    [4] Exit
     printStudentRecords(recordsNum, students);
-    
+
     // Initialize option value
     int option = 1;
     while (option >= 1 && option <= 3)
@@ -188,7 +198,9 @@ int main(void)
         scanf("%d", &option);
         if (option == 1)
         {
-            // [3.A] Add Student Option
+            // ----------------------------------------------------------------
+            // --               [Phase 3.A] Add Student Option               --
+            // ----------------------------------------------------------------
             //  - Input student data and grades
             //    - Last name, first name, ID
             //    - MATH101, CMPSC113, COMM01, MATH01, NSTP02, MATH16, PATHFIT2 grades
@@ -234,13 +246,19 @@ int main(void)
         }
         else if (option == 2)
         {
-            // [3.B] Display student record
+            // ----------------------------------------------------------------
+            // --     [Phase 3.B] Select and display one student reco        --
+            // ----------------------------------------------------------------
             //  - Make the user select one student
             //  - and then displays the data and grades of the student
+
+            // TODO
         }
         else if (option == 3)
         {
-            // [3.C] Search
+            // ----------------------------------------------------------------
+            // --  [Phase 3.C] Search students by first name or last name    --
+            // ----------------------------------------------------------------
             //  - Let the user search for students
             //    based on the keyword/s inputted
             //  - If the search matches multiple students,
@@ -253,37 +271,45 @@ int main(void)
             scanf(" %[^\n]s", keyword);
 
             int matches[MAX_RECORDS]; // array to store indices of matching students
-            int numMatches = 0; // counter for number of matches
+            int numMatches = 0;       // counter for number of matches
 
             // convert keyword to lowercase
-            for (int i = 0; keyword[i]; i++) {
+            for (int i = 0; keyword[i]; i++)
+            {
                 keyword[i] = tolower(keyword[i]);
             }
 
             // search for students matching the keyword (case-insensitive)
-            for (int i = 0; i < recordsNum; i++) {
+            for (int i = 0; i < recordsNum; i++)
+            {
                 // convert first name and last name to lowercase
                 char firstNameLower[TEXT_MAX_NUM];
                 char lastNameLower[TEXT_MAX_NUM];
                 strcpy(firstNameLower, students[i].firstName);
                 strcpy(lastNameLower, students[i].lastName);
-                for (int j = 0; firstNameLower[j]; j++) {
+                for (int j = 0; firstNameLower[j]; j++)
+                {
                     firstNameLower[j] = tolower(firstNameLower[j]);
                 }
-                for (int j = 0; lastNameLower[j]; j++) {
+                for (int j = 0; lastNameLower[j]; j++)
+                {
                     lastNameLower[j] = tolower(lastNameLower[j]);
                 }
 
                 // check if keyword is present in either the first name or last name
-                if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL) {
+                if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL)
+                {
                     matches[numMatches] = i; // store the index of the matching student
-                    numMatches++; // increment the counter
+                    numMatches++;            // increment the counter
                 }
             }
 
-            if (numMatches == 0) {
+            if (numMatches == 0)
+            {
                 printf("No matching students found.\n");
-            } else if (numMatches == 1) {
+            }
+            else if (numMatches == 1)
+            {
                 // only one match found, display the student record
                 int matchIndex = matches[0];
                 printf("Matching student found:\n");
@@ -300,17 +326,21 @@ int main(void)
                 printf("CMPSC113: %.2lf\n", students[matchIndex].cmpsc113);
                 printf("CMPSC112: %.2lf\n", students[matchIndex].cmpsc112);
                 printf("GWA: %.2lf\n", students[matchIndex].GWA);
-            } else {
+            }
+            else
+            {
                 // multiple matches found, ask user to select a specific student
                 printf("Multiple matching students found. Select a student:\n");
-                for (int i = 0; i < numMatches; i++) {
+                for (int i = 0; i < numMatches; i++)
+                {
                     int matchIndex = matches[i];
                     printf("[%d] %s, %s (%s)\n", i + 1, students[matchIndex].lastName, students[matchIndex].firstName, students[matchIndex].studentID);
                 }
                 int selection;
                 printf("Enter selection: ");
                 scanf("%d", &selection);
-                if (selection >= 1 && selection <= numMatches) {
+                if (selection >= 1 && selection <= numMatches)
+                {
                     int matchIndex = matches[selection - 1];
                     printf("Selected student:\n");
                     printf("Last Name: %s\n", students[matchIndex].lastName);
@@ -326,18 +356,25 @@ int main(void)
                     printf("CMPSC113: %.2lf\n", students[matchIndex].cmpsc113);
                     printf("CMPSC112: %.2lf\n", students[matchIndex].cmpsc112);
                     printf("GWA: %.2lf\n", students[matchIndex].GWA);
-                } else {
+                }
+                else
+                {
                     printf("Invalid selection.\n");
                 }
             }
         }
     }
 
-    // [4] Stores data to the data back to the data file
-    if (isThereAdded) {
-        FILE *file;
-        file = fopen(dataFilePath, "w")
-        for (int i = 0; i < recordsNum; i++) {
+    // ----------------------------------------------------------------
+    // --   [Phase 4] Stores data to the data back to the data file  --
+    // ----------------------------------------------------------------
+
+    if (isThereAdded)
+    {
+        FILE *outputFile;
+        file = fopen(dataFilePath, "w");
+        for (int i = 0; i < recordsNum; i++)
+        {
             fprintf(file,
                     "%s, %s, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n",
                     students[i].lastName,
@@ -351,14 +388,15 @@ int main(void)
                     students[i].nstp02,
                     students[i].cmpsc113,
                     students[i].cmpsc112,
-                    students[i].GWA ;
-    
-            if (ferror(file)) {
+                    students[i].GWA);
+
+            if (ferror(file))
+            {
                 printf("Error writing to file.\n");
                 return 1;
             }
         }
-    
+
         fclose(file);
     }
 
