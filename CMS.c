@@ -217,6 +217,9 @@ int main(void)
             recordsNum++;
 
             isThereAdded = true;
+
+            printf("\n");
+            printStudentRecords(recordsNum, students);
         }
         else if (option == 2)
         {
