@@ -149,6 +149,7 @@ int main(void)
 
         // increment the record number if all fields are successfully parsed
         recordsNum++;
+        index++;
     }
  
     // close file
