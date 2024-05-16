@@ -22,8 +22,13 @@
 // To be able to use `bool` type
 #include <stdbool.h>
 
+#include <stdlib.h>
+#include <string.h>
+
 #define TEXT_MAX_NUM 50
 #define ID_NUM 15
+#define MAX_RECORDS 100  // maximum number of records to store
+#define MAX_FIELD_LENGTH 50 // Maximum length of each field in the CSV file
 
 typedef struct
 {
@@ -51,79 +56,106 @@ int main(void)
 
     // Global Variables
     const char *dataFilePath = "CMS_Data.csv";
-    int recordsNum = 0;  
+    int recordsNum = 0;  // counter for the number of records read
+
+    // Tracks if there are students added during the execution of the program
+    // To be used in part 4:
+    // Part 4 should only run (stores the data back to the .csv) file
+    // if there are changes (students added)
+    bool isThereAdded = false;   
+
+    // Variable of the index of the student to be added; to be incremented
+    int index = -1; 
 
     // [1] Creates the data file if it does not exist
     //
 
-
-    //---------------------------------------------------------------------------------------------------
     // [2] Reads all students data from the data file
     //  - Stores the data to an array.
     //  - Tutorial: https://www.youtube.com/watch?v=rbVt5v8NNe8
     //  - Should increment `recordsNum` by one for every record read
     //
+    
+    Student students[MAX_RECORDS];
 
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-
-    // maximum number of records to store
-    #define MAX_RECORDS 100 
-    // maximum length of each field in the CSV file
-    #define MAX_FIELD_LENGTH 50 // Maximum length of each field in the CSV file
-
-    typedef struct {
-    char name[MAX_FIELD_LENGTH];
-    int age;
-    } Student;
-
-    int main() {
     FILE *file;
-    char filename[] = "students.csv"; // name of the CSV file
-    Student students[MAX_RECORDS]; // array to store student data
-    int recordsNum = 0; // counter for the number of records read
     char line[MAX_FIELD_LENGTH * 2]; // buffer to read each line from the file
 
     // open the file for reading
-    file = fopen(filename, "r");
+    file = fopen(dataFilePath, "r");
     if (file == NULL) {
-    fprintf(stderr, "Error opening file %s\n", filename);
-    return 1;
+        fprintf(stderr, "Error opening file %s\n", dataFilePath);
+        return 1;
     }
 
     // read data from the file line by line
-    while (fgets(line, sizeof(line), file) != NULL) {
-    // tokenize the line based on comma separator
-    char *token = strtok(line, ",");
-    if (token != NULL) {
-    // copy the name field to the student structure
-    strncpy(students[recordsNum].name, token, sizeof(students[recordsNum].name) - 1);
-    students[recordsNum].name[sizeof(students[recordsNum].name) - 1] = '\0'; // ensure null-termination
-    }
+    while (fgets(line, sizeof(line), file) != NULL && recordsNum < MAX_RECORDS) {
+        // tokenize the line based on comma separator
+        char *token = strtok(line, ",");
+        if (token == NULL) continue;
 
-    // read age field and increment recordsNum
-    token = strtok(NULL, ",");
-    if (token != NULL) {
-    students[recordsNum].age = atoi(token);
-    recordsNum++;
-    }
+        // copy the last name field to the student structure
+        strncpy(students[recordsNum].lastName, token, sizeof(students[recordsNum].lastName) - 1);
+        students[recordsNum].lastName[sizeof(students[recordsNum].lastName) - 1] = '\0'; // ensure null-termination
 
-    }
+        // copy the first name field
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        strncpy(students[recordsNum].firstName, token, sizeof(students[recordsNum].firstName) - 1);
+        students[recordsNum].firstName[sizeof(students[recordsNum].firstName) - 1] = '\0'; // ensure null-termination
+
+        // copy the student ID field
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        strncpy(students[recordsNum].studentID, token, sizeof(students[recordsNum].studentID) - 1);
+        students[recordsNum].studentID[sizeof(students[recordsNum].studentID) - 1] = '\0'; // ensure null-termination
+
+        // parse the remaining double fields
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].math101 = atof(token);
         
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].cmpsc113 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].comm01 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].math01 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].nstp02 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].math16 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].cmpsc112 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].pathfit2 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].GWA = atof(token);
+
+        // increment the record number if all fields are successfully parsed
+        recordsNum++;
+    }
+ 
     // close file
     fclose(file);
 
     // print number of records read
     printf("Number of records read: %d\n", recordsNum);
-
-    // process stored student data as needed
-
-    return 0;
-}
-// ------------------------------------------------------------------------------------------------------------
-    
-    Student students[100];
 
     // [Phase 3] Displays student records and options
     //  - Use a loop for this part so that the program
@@ -143,7 +175,6 @@ int main(void)
         printf("Select Option:\n");
         printf("[1] Add Student\n[2] Display student record\n[3] Search\n[4] Exit\n\n> ");
         scanf("%d", &option);
-        int index = -1;
         if (option == 1)
         {
             // [3.A] Add Student Option
@@ -182,6 +213,10 @@ int main(void)
             sum = students[index].math101 + students[index].math01 + students[index].math16 + students[index].comm01 + students[index].pathfit2 + students[index].nstp02 + students[index].cmpsc113 + students[index].cmpsc112;
 
             students[index].GWA = sum / 8;
+
+            recordsNum++;
+
+            isThereAdded = true;
         }
         else if (option == 2)
         {
