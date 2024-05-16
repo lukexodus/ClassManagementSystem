@@ -247,7 +247,7 @@ int main(void)
         else if (option == 2)
         {
             // ----------------------------------------------------------------
-            // --     [Phase 3.B] Select and display one student reco        --
+            // --    [Phase 3.B] Select and display one student record       --
             // ----------------------------------------------------------------
             //  - Make the user select one student
             //  - and then displays the data and grades of the student
