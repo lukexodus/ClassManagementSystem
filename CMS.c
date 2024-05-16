@@ -117,19 +117,7 @@ int main(void)
         
         token = strtok(NULL, ",");
         if (token == NULL) continue;
-        students[recordsNum].cmpsc113 = atof(token);
-        
-        token = strtok(NULL, ",");
-        if (token == NULL) continue;
-        students[recordsNum].comm01 = atof(token);
-        
-        token = strtok(NULL, ",");
-        if (token == NULL) continue;
         students[recordsNum].math01 = atof(token);
-        
-        token = strtok(NULL, ",");
-        if (token == NULL) continue;
-        students[recordsNum].nstp02 = atof(token);
         
         token = strtok(NULL, ",");
         if (token == NULL) continue;
@@ -137,11 +125,23 @@ int main(void)
         
         token = strtok(NULL, ",");
         if (token == NULL) continue;
-        students[recordsNum].cmpsc112 = atof(token);
+        students[recordsNum].comm01 = atof(token);
         
         token = strtok(NULL, ",");
         if (token == NULL) continue;
         students[recordsNum].pathfit2 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].nstp02 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].cmpsc113 = atof(token);
+        
+        token = strtok(NULL, ",");
+        if (token == NULL) continue;
+        students[recordsNum].cmpsc112 = atof(token);
         
         token = strtok(NULL, ",");
         if (token == NULL) continue;
