@@ -252,7 +252,44 @@ int main(void)
             //  - Make the user select one student
             //  - and then displays the data and grades of the student
 
-            // TODO
+             // Select and display one student record
+
+    // Print the list of students to choose from
+    printf("Select a student:\n");
+    for (int i = 0; i < recordsNum; i++)
+    {
+        printf("[%d] %s, %s (%s)\n", i + 1, students[i].lastName, students[i].firstName, students[i].studentID);
+    }
+
+    // Prompt the user to choose a student
+    int choice;
+    printf("Enter the number of the student: ");
+    scanf("%d", &choice);
+
+    // Validate the user input
+    if (choice >= 1 && choice <= recordsNum)
+    {
+        // Display the selected student's record
+        int index = choice - 1; // Adjust for zero-based indexing
+        printf("Student Record:\n");
+        printf("Last Name: %s\n", students[index].lastName);
+        printf("First Name: %s\n", students[index].firstName);
+        printf("Student ID: %s\n", students[index].studentID);
+        printf("Grades:\n");
+        printf("MATH101: %.2lf\n", students[index].math101);
+        printf("MATH01: %.2lf\n", students[index].math01);
+        printf("MATH16: %.2lf\n", students[index].math16);
+        printf("COMM01: %.2lf\n", students[index].comm01);
+        printf("PATHFIT2: %.2lf\n", students[index].pathfit2);
+        printf("NSTP02: %.2lf\n", students[index].nstp02);
+        printf("CMPSC113: %.2lf\n", students[index].cmpsc113);
+        printf("CMPSC112: %.2lf\n", students[index].cmpsc112);
+        printf("GWA: %.2lf\n", students[index].GWA);
+    }
+    else
+    {
+        printf("Invalid choice. Please enter a number between 1 and %d.\n", recordsNum);
+    }
         }
         else if (option == 3)
         {
