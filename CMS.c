@@ -233,9 +233,8 @@ int main(void)
             printf("Grade for CMPSC112: ");
             scanf("%lf", &students[index].cmpsc112);
 
-            sum = students[index].math101 + students[index].math01 + students[index].math16 + students[index].comm01 + students[index].pathfit2 + students[index].nstp02 + students[index].cmpsc113 + students[index].cmpsc112;
-
-            students[index].GWA = sum / 8;
+            sum = (students[index].math101 * 3) + (students[index].math01 * 3) + (students[index].math16 * 3) + (students[index].comm01 * 3) + (students[index].pathfit2 * 2) + (students[index].nstp02 * 3) + (students[index].cmpsc113 * 3) + (students[index].cmpsc112 * 3);
+            students[index].GWA = sum / 23;
 
             recordsNum++;
 
