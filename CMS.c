@@ -65,6 +65,16 @@ void printStudentRecords(int recordsNum, Student students[100]);
 
 void printStudentRecord(Student student);
 
+void swap(int *a, int *b);
+
+void maxHeapify(Student arr[], int heap[], int n, int i);
+
+void buildMaxHeap(Student arr[], int heap[], int n);
+
+int *findHighestStudents(Student arr[], int n, int k);
+
+int *findLowestStudents(Student arr[], int n, int k);
+
 int main(void)
 {
     // ----------------------------
@@ -324,7 +334,7 @@ int main(void)
             printf("1. Search by keyword\n");
             printf("2. Search by student number\n");
             printf("3. Search for highest and lowest GWA\n");
-            printf("Enter your choice: ");
+            printf("\nEnter your choice: ");
             int searchOption;
             scanf("%d", &searchOption);
 
@@ -455,30 +465,54 @@ int main(void)
                 // --  [Phase 3.C] Search for highest and lowest GWA             --
                 // ----------------------------------------------------------------
 
-                double highestGWA = students[0].GWA;
-                double lowestGWA = students[0].GWA;
-                int highestIndex = 0;
-                int lowestIndex = 0;
+                int studentsNum;
 
-                for (int i = 1; i < recordsNum; i++)
+                while (true)
                 {
-                    if (students[i].GWA > highestGWA)
+                    printf("\nEnter number of students: ");
+                    if (scanf("%d", &studentsNum))
                     {
-                        highestGWA = students[i].GWA;
-                        highestIndex = i;
+                        if (studentsNum >= 1 && studentsNum <= recordsNum)
+                        {
+                            break;
+                        }
                     }
-                    if (students[i].GWA < lowestGWA)
-                    {
-                        lowestGWA = students[i].GWA;
-                        lowestIndex = i;
-                    }
+                    printf("Out of range or invalid input");
                 }
 
-                printf("\n---- Highest GWA ----\n");
-                printStudentRecord(students[highestIndex]);
+                int *highestStudents = findHighestStudents(students, recordsNum, studentsNum);
 
-                printf("\n---- Lowest GWA ----\n");
-                printStudentRecord(students[lowestIndex]);
+                if (highestStudents == NULL)
+                {
+                    perror("Error making dynamic array");
+                    return 1;
+                }
+
+                printf("\nThe %d student/s with the highest GWAs are:\n", studentsNum);
+                for (int i = 0; i < studentsNum; i++)
+                {
+                    printf("%d. %.2lf - %s, %s (%s)\n", i + 1, students[highestStudents[i]].GWA, students[highestStudents[i]].lastName, students[highestStudents[i]].firstName, students[highestStudents[i]].studentID);
+                }
+                printf("\n");
+
+                free(highestStudents);
+
+                int *lowestStudents = findLowestStudents(students, recordsNum, studentsNum);
+
+                if (lowestStudents == NULL)
+                {
+                    perror("Error making dynamic array");
+                    return 1;
+                }
+
+                printf("The %d student/s with the lowest GWAs are:\n", studentsNum);
+                for (int i = 0; i < studentsNum; i++)
+                {
+                    printf("%d. %.2lf - %s, %s (%s)\n", i + 1, students[lowestStudents[i]].GWA, students[lowestStudents[i]].lastName, students[lowestStudents[i]].firstName, students[lowestStudents[i]].studentID);
+                }
+                printf("\n");
+
+                free(lowestStudents);
             }
             else
             {
@@ -572,4 +606,131 @@ void printStudentRecord(Student student)
            student.nstp01,
            student.pe01,
            student.GWA);
+}
+
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void maxHeapify(Student arr[], int heap[], int n, int i)
+{
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[heap[left]].GWA > arr[heap[largest]].GWA)
+    {
+        largest = left;
+    }
+
+    if (right < n && arr[heap[right]].GWA > arr[heap[largest]].GWA)
+    {
+        largest = right;
+    }
+
+    if (largest != i)
+    {
+        swap(&heap[i], &heap[largest]);
+        maxHeapify(arr, heap, n, largest);
+    }
+}
+
+void buildMaxHeap(Student arr[], int heap[], int n)
+{
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
+        maxHeapify(arr, heap, n, i);
+    }
+}
+
+int *findLowestStudents(Student arr[], int n, int k)
+{
+    if (k <= 0 || n == 0)
+    {
+        return NULL;
+    }
+
+    // Create a max-heap with the first k elements
+    int *maxHeap = (int *)malloc(k * sizeof(int));
+    for (int i = 0; i < k; i++)
+    {
+        maxHeap[i] = i; // Store indices in the heap
+    }
+
+    buildMaxHeap(arr, maxHeap, k);
+
+    // Process the remaining elements
+    for (int i = k; i < n; i++)
+    {
+        if (arr[i].GWA > arr[maxHeap[0]].GWA)
+        {
+            maxHeap[0] = i;
+            maxHeapify(arr, maxHeap, k, 0);
+        }
+    }
+
+    return maxHeap;
+}
+
+void minHeapify(Student arr[], int heap[], int n, int i)
+{
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[heap[left]].GWA < arr[heap[smallest]].GWA)
+    {
+        smallest = left;
+    }
+
+    if (right < n && arr[heap[right]].GWA < arr[heap[smallest]].GWA)
+    {
+        smallest = right;
+    }
+
+    if (smallest != i)
+    {
+        swap(&heap[i], &heap[smallest]);
+        minHeapify(arr, heap, n, smallest);
+    }
+}
+
+void buildMinHeap(Student arr[], int heap[], int n)
+{
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
+        minHeapify(arr, heap, n, i);
+    }
+}
+
+int *findHighestStudents(Student arr[], int n, int k)
+{
+    if (k <= 0 || n == 0)
+    {
+        return NULL;
+    }
+
+    // Create a min-heap with the first k elements
+    int *minHeap = (int *)malloc(k * sizeof(int));
+    for (int i = 0; i < k; i++)
+    {
+        minHeap[i] = i; // Store indices in the heap
+    }
+
+    buildMinHeap(arr, minHeap, k);
+
+    // Process the remaining elements
+    for (int i = k; i < n; i++)
+    {
+        if (arr[i].GWA > arr[minHeap[0]].GWA)
+        {
+            minHeap[0] = i;
+            minHeapify(arr, minHeap, k, 0);
+        }
+    }
+
+    return minHeap;
 }
