@@ -47,17 +47,17 @@
 // Structure representing a student
 typedef struct
 {
+    char studentID[ID_NUM];
     char lastName[TEXT_MAX_NUM];
     char firstName[TEXT_MAX_NUM];
-    char studentID[ID_NUM];
-    double math101;
-    double cmpsc113;
-    double comm01;
-    double math01;
-    double nstp02;
-    double math16;
-    double cmpsc112;
-    double pathfit2;
+    double cmpsc100;
+    double cmpsc111;
+    double socsc02;
+    double sts01;
+    double engl01;
+    double hum12;
+    double nstp01;
+    double pe01;
     double GWA;
 } Student;
 
@@ -130,21 +130,10 @@ int main(void)
         // Tokenizing a string means breaking it down into smaller pieces,
         // or tokens, based on specified delimiters.
 
-        // Copy the last name field to the student structure
-        strncpy(students[recordsNum].lastName, token, sizeof(students[recordsNum].lastName) - 1);
-        students[recordsNum].lastName[sizeof(students[recordsNum].lastName) - 1] = '\0'; // ensure null-termination
-
         // The `strtok` function modifies the original string
         // by replacing the delimiters with '\0' (null character)
         // to terminate tokens and maintains internal state
         // between calls to retrieve subsequent tokens.
-
-        // Copy the first name field
-        token = strtok(NULL, ",");
-        if (token == NULL)
-            continue;
-        strncpy(students[recordsNum].firstName, token, sizeof(students[recordsNum].firstName) - 1);
-        students[recordsNum].firstName[sizeof(students[recordsNum].firstName) - 1] = '\0'; // Ensure null-termination
 
         // Copy the student ID field
         token = strtok(NULL, ",");
@@ -153,11 +142,22 @@ int main(void)
         strncpy(students[recordsNum].studentID, token, sizeof(students[recordsNum].studentID) - 1);
         students[recordsNum].studentID[sizeof(students[recordsNum].studentID) - 1] = '\0'; // ensure null-termination
 
+        // Copy the last name field to the student structure
+        strncpy(students[recordsNum].lastName, token, sizeof(students[recordsNum].lastName) - 1);
+        students[recordsNum].lastName[sizeof(students[recordsNum].lastName) - 1] = '\0'; // ensure null-termination
+
+        // Copy the first name field
+        token = strtok(NULL, ",");
+        if (token == NULL)
+            continue;
+        strncpy(students[recordsNum].firstName, token, sizeof(students[recordsNum].firstName) - 1);
+        students[recordsNum].firstName[sizeof(students[recordsNum].firstName) - 1] = '\0'; // Ensure null-termination
+
         // Parse the remaining double fields (grades)
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].math101 = atof(token);
+        students[recordsNum].cmpsc100 = atof(token);
 
         // `atof` function converts a string (ASCII) to a float
         // (ASCII to Float) or `atof`
@@ -165,37 +165,37 @@ int main(void)
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].math01 = atof(token);
+        students[recordsNum].cmpsc111 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].math16 = atof(token);
+        students[recordsNum].socsc02 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].comm01 = atof(token);
+        students[recordsNum].sts01 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].pathfit2 = atof(token);
+        students[recordsNum].engl01 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].nstp02 = atof(token);
+        students[recordsNum].hum12 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].cmpsc113 = atof(token);
+        students[recordsNum].nstp01 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
             continue;
-        students[recordsNum].cmpsc112 = atof(token);
+        students[recordsNum].pe01 = atof(token);
 
         token = strtok(NULL, ",");
         if (token == NULL)
@@ -219,17 +219,14 @@ int main(void)
     //  - Use a loop so that the program
     //    continues until exited by the user.
 
-    // Prints all the student records
-    printStudentRecords(recordsNum, students);
-
     // Initialize option value
     int option = 1;
 
-    while (option >= 1 && option <= 3) // 1, 2, 3 are the valid ranges.
+    while (option >= 1 && option <= 4) // 1, 2, 3, 4 are the valid ranges.
     {
         // Show options
         printf("Select Option:\n");
-        printf("[1] Add Student\n[2] Display student record\n[3] Search\n[4] Exit\n\n> ");
+        printf("[1] Add Student\n[2] Display student record\n[3] Search\n[4] Display all student records\n[5] Exit\n\n> ");
 
         // Input number of the option (functionality) to run
         scanf("%d", &option);
@@ -241,7 +238,7 @@ int main(void)
             // ----------------------------------------------------------------
             //  - Input student data and grades.
             //    - Last name, first name, ID,
-            //    - MATH101, CMPSC113, COMM01, MATH01, NSTP02, MATH16, & PATHFIT2 grades
+            //    - CMPSC100, NSTP01, STS01, CMPSC111, HUM12, SOCSC02, & ENGL01 grades
             //  - Computes the GWA.
             //  - Stores all of these to the student struct in the array.
 
@@ -249,33 +246,33 @@ int main(void)
 
             index++; // This started from -1 earlier
 
+            printf("ID of student: ");
+            scanf(" %[^\n]s", students[index].studentID);
             printf("Last name of student: ");
             scanf(" %[^\n]s", students[index].lastName);
             printf("First name of student: ");
             scanf(" %[^\n]s", students[index].firstName);
-            printf("ID of student: ");
-            scanf(" %[^\n]s", students[index].studentID);
 
-            printf("Grade for MATH101: ");
-            scanf("%lf", &students[index].math101);
-            printf("Grade for MATH01: ");
-            scanf("%lf", &students[index].math01);
-            printf("Grade for MATH16: ");
-            scanf("%lf", &students[index].math16);
-            printf("Grade for COMM01: ");
-            scanf("%lf", &students[index].comm01);
-            printf("Grade for PATHFIT2: ");
-            scanf("%lf", &students[index].pathfit2);
-            printf("Grade for NSTP02: ");
-            scanf("%lf", &students[index].nstp02);
-            printf("Grade for CMPSC113: ");
-            scanf("%lf", &students[index].cmpsc113);
-            printf("Grade for CMPSC112: ");
-            scanf("%lf", &students[index].cmpsc112);
+            printf("Grade for CMPSC100: ");
+            scanf("%lf", &students[index].cmpsc100);
+            printf("Grade for CMPSC111: ");
+            scanf("%lf", &students[index].cmpsc111);
+            printf("Grade for SOCSC02: ");
+            scanf("%lf", &students[index].socsc02);
+            printf("Grade for STS01: ");
+            scanf("%lf", &students[index].sts01);
+            printf("Grade for ENGL01: ");
+            scanf("%lf", &students[index].engl01);
+            printf("Grade for HUM12: ");
+            scanf("%lf", &students[index].hum12);
+            printf("Grade for NSTP01: ");
+            scanf("%lf", &students[index].nstp01);
+            printf("Grade for PE01: ");
+            scanf("%lf", &students[index].pe01);
 
             // Computes the GWA
-            sum = students[index].math101 + students[index].math01 + students[index].math16 + students[index].comm01 + students[index].pathfit2 + students[index].nstp02 + students[index].cmpsc113 + students[index].cmpsc112;
-            students[index].GWA = sum / 8;
+            sum = students[index].cmpsc100 * 3 + students[index].cmpsc111 * 3 + students[index].socsc02 * 3 + students[index].sts01 * 3 + students[index].engl01 * 3 + students[index].hum12 * 3 + students[index].nstp01 * 3 + students[index].pe01 * 2;
+            students[index].GWA = sum / 23;
 
             recordsNum++; // Increments the record number
 
@@ -314,14 +311,14 @@ int main(void)
                 printf("First Name: %s\n", students[index].firstName);
                 printf("Student ID: %s\n", students[index].studentID);
                 printf("Grades:\n");
-                printf("MATH101: %.2lf\n", students[index].math101);
-                printf("MATH01: %.2lf\n", students[index].math01);
-                printf("MATH16: %.2lf\n", students[index].math16);
-                printf("COMM01: %.2lf\n", students[index].comm01);
-                printf("PATHFIT2: %.2lf\n", students[index].pathfit2);
-                printf("NSTP02: %.2lf\n", students[index].nstp02);
-                printf("CMPSC113: %.2lf\n", students[index].cmpsc113);
-                printf("CMPSC112: %.2lf\n", students[index].cmpsc112);
+                printf("CMPSC100: %.2lf\n", students[index].cmpsc100);
+                printf("CMPSC111: %.2lf\n", students[index].cmpsc111);
+                printf("SOCSC02: %.2lf\n", students[index].socsc02);
+                printf("STS01: %.2lf\n", students[index].sts01);
+                printf("ENGL01: %.2lf\n", students[index].engl01);
+                printf("HUM12: %.2lf\n", students[index].hum12);
+                printf("NSTP01: %.2lf\n", students[index].nstp01);
+                printf("PE01: %.2lf\n", students[index].pe01);
                 printf("GWA: %.2lf\n\n", students[index].GWA);
             }
             else
@@ -393,14 +390,14 @@ int main(void)
                 printf("First Name: %s\n", students[matchIndex].firstName);
                 printf("Student ID: %s\n", students[matchIndex].studentID);
                 printf("Grades:\n");
-                printf("MATH101: %.2lf\n", students[matchIndex].math101);
-                printf("MATH01: %.2lf\n", students[matchIndex].math01);
-                printf("MATH16: %.2lf\n", students[matchIndex].math16);
-                printf("COMM01: %.2lf\n", students[matchIndex].comm01);
-                printf("PATHFIT2: %.2lf\n", students[matchIndex].pathfit2);
-                printf("NSTP02: %.2lf\n", students[matchIndex].nstp02);
-                printf("CMPSC113: %.2lf\n", students[matchIndex].cmpsc113);
-                printf("CMPSC112: %.2lf\n", students[matchIndex].cmpsc112);
+                printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
+                printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
+                printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
+                printf("STS01: %.2lf\n", students[matchIndex].sts01);
+                printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
+                printf("HUM12: %.2lf\n", students[matchIndex].hum12);
+                printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
+                printf("PE01: %.2lf\n", students[matchIndex].pe01);
                 printf("GWA: %.2lf\n", students[matchIndex].GWA);
             }
             else
@@ -423,14 +420,14 @@ int main(void)
                     printf("First Name: %s\n", students[matchIndex].firstName);
                     printf("Student ID: %s\n", students[matchIndex].studentID);
                     printf("Grades:\n");
-                    printf("MATH101: %.2lf\n", students[matchIndex].math101);
-                    printf("MATH01: %.2lf\n", students[matchIndex].math01);
-                    printf("MATH16: %.2lf\n", students[matchIndex].math16);
-                    printf("COMM01: %.2lf\n", students[matchIndex].comm01);
-                    printf("PATHFIT2: %.2lf\n", students[matchIndex].pathfit2);
-                    printf("NSTP02: %.2lf\n", students[matchIndex].nstp02);
-                    printf("CMPSC113: %.2lf\n", students[matchIndex].cmpsc113);
-                    printf("CMPSC112: %.2lf\n", students[matchIndex].cmpsc112);
+                    printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
+                    printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
+                    printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
+                    printf("STS01: %.2lf\n", students[matchIndex].sts01);
+                    printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
+                    printf("HUM12: %.2lf\n", students[matchIndex].hum12);
+                    printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
+                    printf("PE01: %.2lf\n", students[matchIndex].pe01);
                     printf("GWA: %.2lf\n", students[matchIndex].GWA);
                 }
                 else
@@ -438,6 +435,11 @@ int main(void)
                     printf("Invalid selection.\n");
                 }
             }
+        }
+        else if (option == 4)
+        {
+            // Prints all the student records
+            printStudentRecords(recordsNum, students);
         }
     }
 
@@ -456,18 +458,18 @@ int main(void)
         for (int i = 0; i < recordsNum; i++)
         {
             fprintf(file,
-                    "%s, %s, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n",
+                    "%s, %s, %s, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n",
+                    students[i].studentID,
                     students[i].lastName,
                     students[i].firstName,
-                    students[i].studentID,
-                    students[i].math101,
-                    students[i].math01,
-                    students[i].math16,
-                    students[i].comm01,
-                    students[i].pathfit2,
-                    students[i].nstp02,
-                    students[i].cmpsc113,
-                    students[i].cmpsc112,
+                    students[i].cmpsc100,
+                    students[i].cmpsc111,
+                    students[i].socsc02,
+                    students[i].sts01,
+                    students[i].engl01,
+                    students[i].hum12,
+                    students[i].nstp01,
+                    students[i].pe01,
                     students[i].GWA);
 
             if (ferror(file))
@@ -487,22 +489,22 @@ int main(void)
 void printStudentRecords(int recordsNum, Student students[100])
 {
     // Headers for the grades
-    printf("MATH101 | MATH01 | MATH16 | COMM01 | PATHFIT2 | NSTP02 | CMPSC113 | CMPSC112 | GWA\n\n");
+    printf("CMPSC100 | CMPSC111 | SOCSC02 | STS01 | ENGL01 | HUM12 | NSTP01 | PE01 | GWA\n\n");
 
     // Prints the grade of each student
     for (int i = 0; i < recordsNum; i++)
     {
         printf("[%d] %s, %s (%s)\n", i + 1, students[i].lastName, students[i].firstName, students[i].studentID);
 
-        printf("%7.2lf | %6.2lf | %6.2lf | %6.2lf | %8.2lf | %6.2lf | %8.2lf | %8.2lf | %3.2lf\n\n",
-               students[i].math101,
-               students[i].math01,
-               students[i].math16,
-               students[i].comm01,
-               students[i].pathfit2,
-               students[i].nstp02,
-               students[i].cmpsc113,
-               students[i].cmpsc112,
+        printf("%8.2lf | %8.2lf | %7.2lf | %5.2lf | %6.2lf | %5.2lf | %6.2lf | %4.2lf | %3.2lf\n\n",
+               students[i].cmpsc100,
+               students[i].cmpsc111,
+               students[i].socsc02,
+               students[i].sts01,
+               students[i].engl01,
+               students[i].hum12,
+               students[i].nstp01,
+               students[i].pe01,
                students[i].GWA);
     }
 }
