@@ -307,20 +307,8 @@ int main(void)
             {
                 // Display the selected student's record
                 int index = choice - 1; // Adjust for zero-based indexing
-                printf("\n-- Student Record --\n");
-                printf("Last Name: %s\n", students[index].lastName);
-                printf("First Name: %s\n", students[index].firstName);
-                printf("Student ID: %s\n", students[index].studentID);
-                printf("Grades:\n");
-                printf("CMPSC100: %.2lf\n", students[index].cmpsc100);
-                printf("CMPSC111: %.2lf\n", students[index].cmpsc111);
-                printf("SOCSC02: %.2lf\n", students[index].socsc02);
-                printf("STS01: %.2lf\n", students[index].sts01);
-                printf("ENGL01: %.2lf\n", students[index].engl01);
-                printf("HUM12: %.2lf\n", students[index].hum12);
-                printf("NSTP01: %.2lf\n", students[index].nstp01);
-                printf("PE01: %.2lf\n", students[index].pe01);
-                printf("GWA: %.2lf\n\n", students[index].GWA);
+                printf("\n---- Student Record ----\n");
+                printStudentRecord(students[index]);
             }
             else
             {
@@ -397,20 +385,8 @@ int main(void)
                 {
                     // If only one match found, display the student record
                     int matchIndex = matches[0];
-                    printf("-- Matching student found --\n");
-                    printf("Last Name: %s\n", students[matchIndex].lastName);
-                    printf("First Name: %s\n", students[matchIndex].firstName);
-                    printf("Student ID: %s\n", students[matchIndex].studentID);
-                    printf("Grades:\n");
-                    printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
-                    printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
-                    printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
-                    printf("STS01: %.2lf\n", students[matchIndex].sts01);
-                    printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
-                    printf("HUM12: %.2lf\n", students[matchIndex].hum12);
-                    printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
-                    printf("PE01: %.2lf\n", students[matchIndex].pe01);
-                    printf("GWA: %.2lf\n\n", students[matchIndex].GWA);
+                    printf("---- Matching student found ----\n");
+                    printStudentRecord(students[matchIndex]);
                 }
                 else
                 {
@@ -427,20 +403,8 @@ int main(void)
                     if (selection >= 1 && selection <= numMatches)
                     {
                         int matchIndex = matches[selection - 1];
-                        printf("Selected student:\n");
-                        printf("Last Name: %s\n", students[matchIndex].lastName);
-                        printf("First Name: %s\n", students[matchIndex].firstName);
-                        printf("Student ID: %s\n", students[matchIndex].studentID);
-                        printf("Grades:\n");
-                        printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
-                        printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
-                        printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
-                        printf("STS01: %.2lf\n", students[matchIndex].sts01);
-                        printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
-                        printf("HUM12: %.2lf\n", students[matchIndex].hum12);
-                        printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
-                        printf("PE01: %.2lf\n", students[matchIndex].pe01);
-                        printf("GWA: %.2lf\n\n", students[matchIndex].GWA);
+                        printf("---- Selected student ----\n");
+                        printStudentRecord(students[matchIndex]);
                     }
                     else
                     {
@@ -477,20 +441,8 @@ int main(void)
                 else
                 {
                     // Display the student record
-                    printf("-- Matching student found --\n");
-                    printf("Last Name: %s\n", students[matchIndex].lastName);
-                    printf("First Name: %s\n", students[matchIndex].firstName);
-                    printf("Student ID: %s\n", students[matchIndex].studentID);
-                    printf("Grades:\n");
-                    printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
-                    printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
-                    printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
-                    printf("STS01: %.2lf\n", students[matchIndex].sts01);
-                    printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
-                    printf("HUM12: %.2lf\n", students[matchIndex].hum12);
-                    printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
-                    printf("PE01: %.2lf\n", students[matchIndex].pe01);
-                    printf("GWA: %.2lf\n\n", students[matchIndex].GWA);
+                    printf("---- Matching student found ----\n");
+                    printStudentRecord(students[matchIndex]);
                 }
             }
             else if (searchOption == 3)
@@ -517,35 +469,11 @@ int main(void)
                     }
                 }
 
-                printf("\nHighest GWA:\n");
-                printf("Last Name: %s\n", students[highestIndex].lastName);
-                printf("First Name: %s\n", students[highestIndex].firstName);
-                printf("Student ID: %s\n", students[highestIndex].studentID);
-                printf("Grades:\n");
-                printf("CMPSC100: %.2lf\n", students[highestIndex].cmpsc100);
-                printf("CMPSC111: %.2lf\n", students[highestIndex].cmpsc111);
-                printf("SOCSC02: %.2lf\n", students[highestIndex].socsc02);
-                printf("STS01: %.2lf\n", students[highestIndex].sts01);
-                printf("ENGL01: %.2lf\n", students[highestIndex].engl01);
-                printf("HUM12: %.2lf\n", students[highestIndex].hum12);
-                printf("NSTP01: %.2lf\n", students[highestIndex].nstp01);
-                printf("PE01: %.2lf\n", students[highestIndex].pe01);
-                printf("GWA: %.2lf\n", students[highestIndex].GWA);
+                printf("\n---- Highest GWA ----\n");
+                printStudentRecord(students[highestIndex]);
 
-                printf("\nLowest GWA:\n");
-                printf("Last Name: %s\n", students[lowestIndex].lastName);
-                printf("First Name: %s\n", students[lowestIndex].firstName);
-                printf("Student ID: %s\n", students[lowestIndex].studentID);
-                printf("Grades:\n");
-                printf("CMPSC100: %.2lf\n", students[lowestIndex].cmpsc100);
-                printf("CMPSC111: %.2lf\n", students[lowestIndex].cmpsc111);
-                printf("SOCSC02: %.2lf\n", students[lowestIndex].socsc02);
-                printf("STS01: %.2lf\n", students[lowestIndex].sts01);
-                printf("ENGL01: %.2lf\n", students[lowestIndex].engl01);
-                printf("HUM12: %.2lf\n", students[lowestIndex].hum12);
-                printf("NSTP01: %.2lf\n", students[lowestIndex].nstp01);
-                printf("PE01: %.2lf\n", students[lowestIndex].pe01);
-                printf("GWA: %.2lf\n\n", students[lowestIndex].GWA);
+                printf("\n---- Lowest GWA ----\n");
+                printStudentRecord(students[lowestIndex]);
             }
             else
             {
@@ -623,4 +551,21 @@ void printStudentRecords(int recordsNum, Student students[100])
                students[i].pe01,
                students[i].GWA);
     }
+}
+
+void printStudentRecord(Student student)
+{
+    printf("Last Name: %s\n", student.lastName);
+    printf("First Name: %s\n", student.firstName);
+    printf("Student ID: %s\n", student.studentID);
+    printf("-- Grades --\n");
+    printf("CMPSC100: %.2lf\n", student.cmpsc100);
+    printf("CMPSC111: %.2lf\n", student.cmpsc111);
+    printf("SOCSC02: %.2lf\n", student.socsc02);
+    printf("STS01: %.2lf\n", student.sts01);
+    printf("ENGL01: %.2lf\n", student.engl01);
+    printf("HUM12: %.2lf\n", student.hum12);
+    printf("NSTP01: %.2lf\n", student.nstp01);
+    printf("PE01: %.2lf\n", student.pe01);
+    printf("GWA: %.2lf\n", student.GWA);
 }
