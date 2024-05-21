@@ -63,6 +63,8 @@ typedef struct
 
 void printStudentRecords(int recordsNum, Student students[100]);
 
+void printStudentRecord(Student student);
+
 int main(void)
 {
     // ----------------------------
