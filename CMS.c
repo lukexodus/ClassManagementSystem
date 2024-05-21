@@ -279,7 +279,6 @@ int main(void)
             isThereAdded = true; // If there are changes, the .csv file needs to be updated
 
             printf("\n");
-            printStudentRecords(recordsNum, students); // Prints all the student records again
         }
         else if (option == 2)
         {
