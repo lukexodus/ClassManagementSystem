@@ -339,6 +339,7 @@ int main(void)
                 //    ask again which specific student whose
                 //    data and grades will be shown
                 //  - Displays the data and grades of the selected student
+
                 // Inputs keyword for the search
                 char keyword[TEXT_MAX_NUM];
                 printf("\nEnter keyword: ");
@@ -422,6 +423,7 @@ int main(void)
                 //  - Let the user search for students
                 //    based on the student number inputted
                 //  - Displays the data and grades of the selected student
+
                 // Inputs student number for the search
                 char studentNumber[TEXT_MAX_NUM];
                 printf("\nEnter student number: ");
@@ -452,6 +454,7 @@ int main(void)
                 // ----------------------------------------------------------------
                 // --  [Phase 3.C] Search for highest and lowest GWA             --
                 // ----------------------------------------------------------------
+
                 double highestGWA = students[0].GWA;
                 double lowestGWA = students[0].GWA;
                 int highestIndex = 0;
@@ -557,17 +560,16 @@ void printStudentRecords(int recordsNum, Student students[100])
 
 void printStudentRecord(Student student)
 {
-    printf("Last Name: %s\n", student.lastName);
-    printf("First Name: %s\n", student.firstName);
-    printf("Student ID: %s\n", student.studentID);
-    printf("-- Grades --\n");
-    printf("CMPSC100: %.2lf\n", student.cmpsc100);
-    printf("CMPSC111: %.2lf\n", student.cmpsc111);
-    printf("SOCSC02: %.2lf\n", student.socsc02);
-    printf("STS01: %.2lf\n", student.sts01);
-    printf("ENGL01: %.2lf\n", student.engl01);
-    printf("HUM12: %.2lf\n", student.hum12);
-    printf("NSTP01: %.2lf\n", student.nstp01);
-    printf("PE01: %.2lf\n", student.pe01);
-    printf("GWA: %.2lf\n", student.GWA);
+    printf("%s, %s (%s)\n", student.lastName, student.firstName, student.studentID);
+    printf("CMPSC100 | CMPSC111 | SOCSC02 | STS01 | ENGL01 | HUM12 | NSTP01 | PE01 | GWA\n");
+    printf("%8.2lf | %8.2lf | %7.2lf | %5.2lf | %6.2lf | %5.2lf | %6.2lf | %4.2lf | %3.2lf\n\n",
+           student.cmpsc100,
+           student.cmpsc111,
+           student.socsc02,
+           student.sts01,
+           student.engl01,
+           student.hum12,
+           student.nstp01,
+           student.pe01,
+           student.GWA);
 }
