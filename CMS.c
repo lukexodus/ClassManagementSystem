@@ -283,7 +283,7 @@ int main(void)
         else if (option == 2)
         {
             // ----------------------------------------------------------------
-            // --     [Phase 3.B] Select and display one student reco        --
+            // --     [Phase 3.B] Select and display one student record        --
             // ----------------------------------------------------------------
             //  - Make the user select one student
             //  - and then displays the data and grades of the student
@@ -327,8 +327,19 @@ int main(void)
         }
         else if (option == 3)
         {
+            // Prompt the user for the search option
+            printf("Search Option:\n");
+            printf("1. Search by keyword\n");
+            printf("2. Search by student number\n");
+            printf("3. Search for highest and lowest GWA\n");
+            printf("Enter your choice: ");
+            int searchOption;
+            scanf("%d", &searchOption);
+
+            if (searchOption == 1)
+            {
             // ----------------------------------------------------------------
-            // --  [Phase 3.C] Search students by first name or last name    --
+            // --  [Phase 3.C] Search students by keyword    --
             // ----------------------------------------------------------------
             //  - Let the user search for students
             //    based on the keyword/s inputted
@@ -336,49 +347,49 @@ int main(void)
             //    ask again which specific student whose
             //    data and grades will be shown
             //  - Displays the data and grades of the selected student
-
             // Inputs keyword for the search
             char keyword[TEXT_MAX_NUM];
             printf("\nEnter keyword: ");
             scanf(" %[^\n]s", keyword);
-
             int matches[MAX_RECORDS]; // array to store indices of matching students
             int numMatches = 0;       // counter for number of matches
-
             // Convert keyword to lowercase, (so that the search is case-insensitive)
             for (int i = 0; keyword[i]; i++)
             {
                 keyword[i] = tolower(keyword[i]);
             }
-
             // Search for students matching the keyword (case-insensitive)
             for (int i = 0; i < recordsNum; i++)
             {
-                // Converts first name and last name to lowercase
+                // Converts first name, last name, and student number to lowercase
                 char firstNameLower[TEXT_MAX_NUM];
                 char lastNameLower[TEXT_MAX_NUM];
+                char studentIDLower[TEXT_MAX_NUM];
                 strcpy(firstNameLower, students[i].firstName);
                 strcpy(lastNameLower, students[i].lastName);
+                strcpy(studentIDLower, students[i].studentID);
                 for (int j = 0; firstNameLower[j]; j++)
                 {
-                    firstNameLower[j] = tolower(firstNameLower[j]);
+                firstNameLower[j] = tolower(firstNameLower[j]);
                 }
                 for (int j = 0; lastNameLower[j]; j++)
                 {
-                    lastNameLower[j] = tolower(lastNameLower[j]);
+                lastNameLower[j] = tolower(lastNameLower[j]);
                 }
-
-                // Checks if keyword is present in either the first name or last name
-                if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL)
+                for (int j = 0; studentIDLower[j]; j++)
                 {
-                    matches[numMatches] = i; // Store the index of the matching student
-                    numMatches++;            // Increment the counter
+                studentIDLower[j] = tolower(studentIDLower[j]);
+                }
+                // Checks if keyword is present in either the first name, last name, or student number
+                if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL || strstr(studentIDLower, keyword) != NULL)
+                {
+                matches[numMatches] = i; // Store the index of the matching student
+                numMatches++;            // Increment the counter
                 }
             }
-
             if (numMatches == 0)
             {
-                printf("No matching students found.\n");
+                printf("No matching students found.\n\n");
             }
             else if (numMatches == 1)
             {
@@ -397,7 +408,7 @@ int main(void)
                 printf("HUM12: %.2lf\n", students[matchIndex].hum12);
                 printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
                 printf("PE01: %.2lf\n", students[matchIndex].pe01);
-                printf("GWA: %.2lf\n", students[matchIndex].GWA);
+                printf("GWA: %.2lf\n\n", students[matchIndex].GWA);
             }
             else
             {
@@ -405,34 +416,138 @@ int main(void)
                 printf("Multiple matching students found. Select a student:\n");
                 for (int i = 0; i < numMatches; i++)
                 {
-                    int matchIndex = matches[i];
-                    printf("[%d] %s, %s (%s)\n", i + 1, students[matchIndex].lastName, students[matchIndex].firstName, students[matchIndex].studentID);
+                int matchIndex = matches[i];
+                printf("[%d] %s, %s (%s)\n", i + 1, students[matchIndex].lastName, students[matchIndex].firstName, students[matchIndex].studentID);
                 }
                 int selection;
                 printf("\nEnter selection: ");
                 scanf("%d", &selection);
                 if (selection >= 1 && selection <= numMatches)
                 {
-                    int matchIndex = matches[selection - 1];
-                    printf("Selected student:\n");
-                    printf("Last Name: %s\n", students[matchIndex].lastName);
-                    printf("First Name: %s\n", students[matchIndex].firstName);
-                    printf("Student ID: %s\n", students[matchIndex].studentID);
-                    printf("Grades:\n");
-                    printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
-                    printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
-                    printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
-                    printf("STS01: %.2lf\n", students[matchIndex].sts01);
-                    printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
-                    printf("HUM12: %.2lf\n", students[matchIndex].hum12);
-                    printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
-                    printf("PE01: %.2lf\n", students[matchIndex].pe01);
-                    printf("GWA: %.2lf\n", students[matchIndex].GWA);
+                int matchIndex = matches[selection - 1];
+                printf("Selected student:\n");
+                printf("Last Name: %s\n", students[matchIndex].lastName);
+                printf("First Name: %s\n", students[matchIndex].firstName);
+                printf("Student ID: %s\n", students[matchIndex].studentID);
+                printf("Grades:\n");
+                printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
+                printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
+                printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
+                printf("STS01: %.2lf\n", students[matchIndex].sts01);
+                printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
+                printf("HUM12: %.2lf\n", students[matchIndex].hum12);
+                printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
+                printf("PE01: %.2lf\n", students[matchIndex].pe01);
+                printf("GWA: %.2lf\n\n", students[matchIndex].GWA);
                 }
                 else
                 {
-                    printf("Invalid selection.\n");
+                printf("Invalid selection.\n\n");
                 }
+            }
+            }
+            else if (searchOption == 2)
+            {
+            // ----------------------------------------------------------------
+            // --  [Phase 3.C] Search students by student number    --
+            // ----------------------------------------------------------------
+            //  - Let the user search for students
+            //    based on the student number inputted
+            //  - Displays the data and grades of the selected student
+            // Inputs student number for the search
+            char studentNumber[TEXT_MAX_NUM];
+            printf("\nEnter student number: ");
+            scanf(" %[^\n]s", studentNumber);
+            int matchIndex = -1; // index of the matching student
+            // Search for student matching the student number
+            for (int i = 0; i < recordsNum; i++)
+            {
+                if (strcmp(students[i].studentID, studentNumber) == 0)
+                {
+                matchIndex = i; // Store the index of the matching student
+                break;
+                }
+            }
+            if (matchIndex == -1)
+            {
+                printf("No matching student found.\n\n");
+            }
+            else
+            {
+                // Display the student record
+                printf("-- Matching student found --\n");
+                printf("Last Name: %s\n", students[matchIndex].lastName);
+                printf("First Name: %s\n", students[matchIndex].firstName);
+                printf("Student ID: %s\n", students[matchIndex].studentID);
+                printf("Grades:\n");
+                printf("CMPSC100: %.2lf\n", students[matchIndex].cmpsc100);
+                printf("CMPSC111: %.2lf\n", students[matchIndex].cmpsc111);
+                printf("SOCSC02: %.2lf\n", students[matchIndex].socsc02);
+                printf("STS01: %.2lf\n", students[matchIndex].sts01);
+                printf("ENGL01: %.2lf\n", students[matchIndex].engl01);
+                printf("HUM12: %.2lf\n", students[matchIndex].hum12);
+                printf("NSTP01: %.2lf\n", students[matchIndex].nstp01);
+                printf("PE01: %.2lf\n", students[matchIndex].pe01);
+                printf("GWA: %.2lf\n\n", students[matchIndex].GWA);
+            }
+            }
+            else if (searchOption == 3)
+            {
+            // ----------------------------------------------------------------
+            // --  [Phase 3.C] Search for highest and lowest GWA             --
+            // ----------------------------------------------------------------
+            double highestGWA = students[0].GWA;
+            double lowestGWA = students[0].GWA;
+            int highestIndex = 0;
+            int lowestIndex = 0;
+
+            for (int i = 1; i < recordsNum; i++)
+            {
+                if (students[i].GWA > highestGWA)
+                {
+                highestGWA = students[i].GWA;
+                highestIndex = i;
+                }
+                if (students[i].GWA < lowestGWA)
+                {
+                lowestGWA = students[i].GWA;
+                lowestIndex = i;
+                }
+            }
+
+            printf("\nHighest GWA:\n");
+            printf("Last Name: %s\n", students[highestIndex].lastName);
+            printf("First Name: %s\n", students[highestIndex].firstName);
+            printf("Student ID: %s\n", students[highestIndex].studentID);
+            printf("Grades:\n");
+            printf("CMPSC100: %.2lf\n", students[highestIndex].cmpsc100);
+            printf("CMPSC111: %.2lf\n", students[highestIndex].cmpsc111);
+            printf("SOCSC02: %.2lf\n", students[highestIndex].socsc02);
+            printf("STS01: %.2lf\n", students[highestIndex].sts01);
+            printf("ENGL01: %.2lf\n", students[highestIndex].engl01);
+            printf("HUM12: %.2lf\n", students[highestIndex].hum12);
+            printf("NSTP01: %.2lf\n", students[highestIndex].nstp01);
+            printf("PE01: %.2lf\n", students[highestIndex].pe01);
+            printf("GWA: %.2lf\n", students[highestIndex].GWA);
+
+            printf("\nLowest GWA:\n");
+            printf("Last Name: %s\n", students[lowestIndex].lastName);
+            printf("First Name: %s\n", students[lowestIndex].firstName);
+            printf("Student ID: %s\n", students[lowestIndex].studentID);
+            printf("Grades:\n");
+            printf("CMPSC100: %.2lf\n", students[lowestIndex].cmpsc100);
+            printf("CMPSC111: %.2lf\n", students[lowestIndex].cmpsc111);
+            printf("SOCSC02: %.2lf\n", students[lowestIndex].socsc02);
+            printf("STS01: %.2lf\n", students[lowestIndex].sts01);
+            printf("ENGL01: %.2lf\n", students[lowestIndex].engl01);
+            printf("HUM12: %.2lf\n", students[lowestIndex].hum12);
+            printf("NSTP01: %.2lf\n", students[lowestIndex].nstp01);
+            printf("PE01: %.2lf\n", students[lowestIndex].pe01);
+            printf("GWA: %.2lf\n\n", students[lowestIndex].GWA);
+            }
+            else
+            {
+            printf("Invalid choice. Please enter a number between 1 and 3.\n\n");
             }
         }
         else if (option == 4)
