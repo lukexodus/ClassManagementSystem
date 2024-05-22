@@ -65,16 +65,6 @@ void printStudentRecords(int recordsNum, Student students[100]);
 
 void printStudentRecord(Student student);
 
-void swap(int *a, int *b);
-
-void maxHeapify(Student arr[], int heap[], int n, int i);
-
-void buildMaxHeap(Student arr[], int heap[], int n);
-
-int *findHighestStudents(Student arr[], int n, int k);
-
-int *findLowestStudents(Student arr[], int n, int k);
-
 int main(void)
 {
     // ----------------------------
@@ -338,130 +328,172 @@ int main(void)
             int searchOption;
             scanf("%d", &searchOption);
 
-            if (searchOption == 1) {
-            // ----------------------------------------------------------------
-            // --  [Phase 3.C] Search students by keyword    --
-            // ----------------------------------------------------------------
-            //  - Let the user search for students
-            //    based on the keyword/s inputted
-            //  - If the search matches multiple students,
-            //    ask again which specific student whose
-            //    data and grades will be shown
-            //  - Displays the data and grades of the selected student
+            if (searchOption == 1)
+            {
+                // ------------------------------------------------
+                // --  [Phase 3.C] Search students by keyword    --
+                // ------------------------------------------------
+                //  - Let the user search for students
+                //    based on the keyword/s inputted
+                //  - If the search matches multiple students,
+                //    ask again which specific student whose
+                //    data and grades will be shown
+                //  - Displays the data and grades of the selected student
 
-            // Inputs keyword for the search
-            char keyword[TEXT_MAX_NUM];
-            printf("\nEnter keyword: ");
-            scanf(" %[^\n]s", keyword);
-            int matches[MAX_RECORDS]; // array to store indices of matching students
-            int numMatches = 0;       // counter for number of matches
-            // Convert keyword to lowercase, (so that the search is case-insensitive)
-            for (int i = 0; keyword[i]; i++) {
-                keyword[i] = tolower(keyword[i]);
+                // Inputs keyword for the search
+                char keyword[TEXT_MAX_NUM];
+                printf("\nEnter keyword: ");
+                scanf(" %[^\n]s", keyword);
+                int matches[MAX_RECORDS]; // array to store indices of matching students
+                int numMatches = 0;       // counter for number of matches
+                // Convert keyword to lowercase, (so that the search is case-insensitive)
+                for (int i = 0; keyword[i]; i++)
+                {
+                    keyword[i] = tolower(keyword[i]);
+                }
+                // Search for students matching the keyword (case-insensitive)
+                for (int i = 0; i < recordsNum; i++)
+                {
+                    // Converts first name and last name to lowercase
+                    char firstNameLower[TEXT_MAX_NUM];
+                    char lastNameLower[TEXT_MAX_NUM];
+                    strcpy(firstNameLower, students[i].firstName);
+                    strcpy(lastNameLower, students[i].lastName);
+                    for (int j = 0; firstNameLower[j]; j++)
+                    {
+                        firstNameLower[j] = tolower(firstNameLower[j]);
+                    }
+                    for (int j = 0; lastNameLower[j]; j++)
+                    {
+                        lastNameLower[j] = tolower(lastNameLower[j]);
+                    }
+                    // Checks if keyword is present in either the first name or last name
+                    if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL)
+                    {
+                        matches[numMatches] = i; // Store the index of the matching student
+                        numMatches++;            // Increment the counter
+                    }
+                }
+                if (numMatches == 0)
+                {
+                    printf("No matching students found.\n\n");
+                }
+                else if (numMatches == 1)
+                {
+                    // If only one match found, display the student record
+                    int matchIndex = matches[0];
+                    printf("---- Matching student found ----\n");
+                    printStudentRecord(students[matchIndex]);
+                }
+                else
+                {
+                    // If multiple matches are found, asks user to select a specific student
+                    printf("Multiple matching students found. Select a student:\n");
+                    for (int i = 0; i < numMatches; i++)
+                    {
+                        int matchIndex = matches[i];
+                        printf("[%d] %s, %s (%s)\n", i + 1, students[matchIndex].lastName, students[matchIndex].firstName, students[matchIndex].studentID);
+                    }
+                    int selection;
+                    printf("\nEnter selection: ");
+                    scanf("%d", &selection);
+                    if (selection >= 1 && selection <= numMatches)
+                    {
+                        int matchIndex = matches[selection - 1];
+                        printf("---- Selected student ----\n");
+                        printStudentRecord(students[matchIndex]);
+                    }
+                    else
+                    {
+                        printf("Invalid selection.\n\n");
+                    }
+                }
             }
-            // Search for students matching the keyword (case-insensitive)
-            for (int i = 0; i < recordsNum; i++) {
-                // Converts first name and last name to lowercase
-                char firstNameLower[TEXT_MAX_NUM];
-                char lastNameLower[TEXT_MAX_NUM];
-                strcpy(firstNameLower, students[i].firstName);
-                strcpy(lastNameLower, students[i].lastName);
-                for (int j = 0; firstNameLower[j]; j++) {
-                firstNameLower[j] = tolower(firstNameLower[j]);
-                }
-                for (int j = 0; lastNameLower[j]; j++) {
-                lastNameLower[j] = tolower(lastNameLower[j]);
-                }
-                // Checks if keyword is present in either the first name or last name
-                if (strstr(firstNameLower, keyword) != NULL || strstr(lastNameLower, keyword) != NULL) {
-                matches[numMatches] = i; // Store the index of the matching student
-                numMatches++;            // Increment the counter
-                }
-            }
-            if (numMatches == 0) {
-                printf("No matching students found.\n\n");
-            } else if (numMatches == 1) {
-                // If only one match found, display the student record
-                int matchIndex = matches[0];
-                printf("---- Matching student found ----\n");
-                printStudentRecord(students[matchIndex]);
-            } else {
-                // If multiple matches are found, asks user to select a specific student
-                printf("Multiple matching students found. Select a student:\n");
-                for (int i = 0; i < numMatches; i++) {
-                int matchIndex = matches[i];
-                printf("[%d] %s, %s (%s)\n", i + 1, students[matchIndex].lastName, students[matchIndex].firstName, students[matchIndex].studentID);
-                }
-                int selection;
-                printf("\nEnter selection: ");
-                scanf("%d", &selection);
-                if (selection >= 1 && selection <= numMatches) {
-                int matchIndex = matches[selection - 1];
-                printf("---- Selected student ----\n");
-                printStudentRecord(students[matchIndex]);
-                } else {
-                printf("Invalid selection.\n\n");
-                }
-            }
-            } else if (searchOption == 2) {
-            // ----------------------------------------------------------------
-            // --  [Phase 3.C] Search students by student number    --
-            // ----------------------------------------------------------------
-            //  - Let the user search for students
-            //    based on the student number inputted
-            //  - Displays the data and grades of the selected student
+            else if (searchOption == 2)
+            {
+                // -------------------------------------------------------
+                // --  [Phase 3.C] Search students by student number    --
+                // -------------------------------------------------------
+                //  - Let the user search for students
+                //    based on the student number inputted
+                //  - Displays the data and grades of the selected student
 
-            // Inputs student number for the search
-            char studentNumber[TEXT_MAX_NUM];
-            printf("\nEnter student number: ");
-            scanf(" %[^\n]s", studentNumber);
-            int matchIndex = -1; // index of the matching student
-            // Search for student matching the student number
-            for (int i = 0; i < recordsNum; i++) {
-                if (strcmp(students[i].studentID, studentNumber) == 0) {
-                matchIndex = i; // Store the index of the matching student
-                break;
+                // Inputs student number for the search
+                char studentNumber[TEXT_MAX_NUM];
+                printf("\nEnter student number: ");
+                scanf(" %[^\n]s", studentNumber);
+                int matchIndex = -1; // index of the matching student
+                // Search for student matching the student number
+                for (int i = 0; i < recordsNum; i++)
+                {
+                    if (strcmp(students[i].studentID, studentNumber) == 0)
+                    {
+                        matchIndex = i; // Store the index of the matching student
+                        break;
+                    }
+                }
+                if (matchIndex == -1)
+                {
+                    printf("No matching student found.\n\n");
+                }
+                else
+                {
+                    // Display the student record
+                    printf("---- Matching student found ----\n");
+                    printStudentRecord(students[matchIndex]);
                 }
             }
-            if (matchIndex == -1) {
-                printf("No matching student found.\n\n");
-            } else {
-                // Display the student record
-                printf("---- Matching student found ----\n");
-                printStudentRecord(students[matchIndex]);
-            }
-            } else if (searchOption == 3) {
-            // ----------------------------------------------------------------
-            // --  [Phase 3.C] Search for highest and lowest GWA             --
-            // ----------------------------------------------------------------
+            else if (searchOption == 3)
+            {
+                // -----------------------------------------------------
+                // --  [Phase 3.C] Search for highest and lowest GWA  --
+                // -----------------------------------------------------
 
-            // Sort the students based on GWA in descending order
-            for (int i = 0; i < recordsNum - 1; i++) {
-                for (int j = 0; j < recordsNum - i - 1; j++) {
-                if (students[j].GWA < students[j + 1].GWA) { // Change the comparison operator to <
-                    // Swap the students
-                    Student temp = students[j];
-                    students[j] = students[j + 1];
-                    students[j + 1] = temp;
+                // Sort the students based on GWA in descending order.
+                for (int i = 0; i < (recordsNum - 1); i++)
+                {
+                    for (int j = 0; j < (recordsNum - 1) - i; j++)
+                    {
+                        if (students[j].GWA < students[j + 1].GWA)
+                        { // Change the comparison operator to <
+                            // Swap the students
+                            Student temp = students[j];
+                            students[j] = students[j + 1];
+                            students[j + 1] = temp;
+                        }
+                    }
                 }
+                // The preceding code uses the bubble sorting algorithm.
+                // It follows these two steps (repeated until the array is sorted):
+                // 1. For every passthrough (i.e. the inner loop finishes),
+                //    the highest number is placed at the end.
+                //      - It does this by iterating the array, compares one item
+                //        by the one after it, and if the item is bigger than the
+                //        other, the two are swapped so that the bigger item is after
+                //        the smaller one.
+                // 2. It then narrows the range of the values to be sorted by
+                //    one ((recordsNum - 1) - i) since the highest values are already
+                //    at the right places.
+
+                printf("\n---- Highest GWAs ----\n");
+                int numHighestGWAs = recordsNum < 5 ? recordsNum : 5; // Determine the number of highest GWAs to display
+                for (int i = recordsNum - 1; i >= recordsNum - numHighestGWAs; i--)
+                { // Iterate from recordsNum - 1 to recordsNum - numHighestGWAs
+                    printf("%d. ", recordsNum - i);
+                    printStudentRecord(students[i]);
+                }
+
+                printf("\n---- Lowest GWAs ----\n");
+                int numLowestGWAs = recordsNum < 5 ? recordsNum : 5; // Determine the number of lowest GWAs to display
+                for (int i = 0; i < numLowestGWAs; i++)
+                { // Iterate from 0 to numLowestGWAs - 1
+                    printf("%d. ", i + 1);
+                    printStudentRecord(students[i]);
                 }
             }
-
-            printf("\n---- Highest GWAs ----\n");
-            int numHighestGWAs = recordsNum < 5 ? recordsNum : 5; // Determine the number of highest GWAs to display
-            for (int i = recordsNum - 1; i >= recordsNum - numHighestGWAs; i--) { // Iterate from recordsNum - 1 to recordsNum - numHighestGWAs
-                printf("%d. ", recordsNum - i);
-                printStudentRecord(students[i]);
-            }
-
-            printf("\n---- Lowest GWAs ----\n");
-            int numLowestGWAs = recordsNum < 5 ? recordsNum : 5; // Determine the number of lowest GWAs to display
-            for (int i = 0; i < numLowestGWAs; i++) { // Iterate from 0 to numLowestGWAs - 1
-                printf("%d. ", i + 1);
-                printStudentRecord(students[i]);
-            }
-            } else {
-            printf("Invalid choice. Please enter a number between 1 and 3.\n\n");
+            else
+            {
+                printf("Invalid choice. Please enter a number between 1 and 3.\n\n");
             }
         }
         else if (option == 4)
@@ -516,14 +548,11 @@ int main(void)
 
 void printStudentRecords(int recordsNum, Student students[100])
 {
-    // Headers for the grades
-    printf("CMPSC100 | CMPSC111 | SOCSC02 | STS01 | ENGL01 | HUM12 | NSTP01 | PE01 | GWA\n\n");
-
     // Prints the grade of each student
     for (int i = 0; i < recordsNum; i++)
     {
         printf("[%d] %s, %s (%s)\n", i + 1, students[i].lastName, students[i].firstName, students[i].studentID);
-
+        printf("CMPSC100 | CMPSC111 | SOCSC02 | STS01 | ENGL01 | HUM12 | NSTP01 | PE01 | GWA\n");
         printf("%8.2lf | %8.2lf | %7.2lf | %5.2lf | %6.2lf | %5.2lf | %6.2lf | %4.2lf | %3.2lf\n\n",
                students[i].cmpsc100,
                students[i].cmpsc111,
@@ -551,131 +580,4 @@ void printStudentRecord(Student student)
            student.nstp01,
            student.pe01,
            student.GWA);
-}
-
-void swap(int *a, int *b)
-{
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void maxHeapify(Student arr[], int heap[], int n, int i)
-{
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
-
-    if (left < n && arr[heap[left]].GWA > arr[heap[largest]].GWA)
-    {
-        largest = left;
-    }
-
-    if (right < n && arr[heap[right]].GWA > arr[heap[largest]].GWA)
-    {
-        largest = right;
-    }
-
-    if (largest != i)
-    {
-        swap(&heap[i], &heap[largest]);
-        maxHeapify(arr, heap, n, largest);
-    }
-}
-
-void buildMaxHeap(Student arr[], int heap[], int n)
-{
-    for (int i = n / 2 - 1; i >= 0; i--)
-    {
-        maxHeapify(arr, heap, n, i);
-    }
-}
-
-int *findLowestStudents(Student arr[], int n, int k)
-{
-    if (k <= 0 || n == 0)
-    {
-        return NULL;
-    }
-
-    // Create a max-heap with the first k elements
-    int *maxHeap = (int *)malloc(k * sizeof(int));
-    for (int i = 0; i < k; i++)
-    {
-        maxHeap[i] = i; // Store indices in the heap
-    }
-
-    buildMaxHeap(arr, maxHeap, k);
-
-    // Process the remaining elements
-    for (int i = k; i < n; i++)
-    {
-        if (arr[i].GWA > arr[maxHeap[0]].GWA)
-        {
-            maxHeap[0] = i;
-            maxHeapify(arr, maxHeap, k, 0);
-        }
-    }
-
-    return maxHeap;
-}
-
-void minHeapify(Student arr[], int heap[], int n, int i)
-{
-    int smallest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
-
-    if (left < n && arr[heap[left]].GWA < arr[heap[smallest]].GWA)
-    {
-        smallest = left;
-    }
-
-    if (right < n && arr[heap[right]].GWA < arr[heap[smallest]].GWA)
-    {
-        smallest = right;
-    }
-
-    if (smallest != i)
-    {
-        swap(&heap[i], &heap[smallest]);
-        minHeapify(arr, heap, n, smallest);
-    }
-}
-
-void buildMinHeap(Student arr[], int heap[], int n)
-{
-    for (int i = n / 2 - 1; i >= 0; i--)
-    {
-        minHeapify(arr, heap, n, i);
-    }
-}
-
-int *findHighestStudents(Student arr[], int n, int k)
-{
-    if (k <= 0 || n == 0)
-    {
-        return NULL;
-    }
-
-    // Create a min-heap with the first k elements
-    int *minHeap = (int *)malloc(k * sizeof(int));
-    for (int i = 0; i < k; i++)
-    {
-        minHeap[i] = i; // Store indices in the heap
-    }
-
-    buildMinHeap(arr, minHeap, k);
-
-    // Process the remaining elements
-    for (int i = k; i < n; i++)
-    {
-        if (arr[i].GWA > arr[minHeap[0]].GWA)
-        {
-            minHeap[0] = i;
-            minHeapify(arr, minHeap, k, 0);
-        }
-    }
-
-    return minHeap;
 }
